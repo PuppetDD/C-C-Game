@@ -13,9 +13,19 @@ public class FiveChess {
     private double height;
     private double cellLen;
     private String color = "White";
-    private char currentSide = 'W';
+    /**
+     * 标志当前用户的落子颜色
+     **/
+    private char localSide = 'W';
+    /**
+     * 区别当前落子方
+     **/
     private char flag = 'B';
     private char[][] chess;
+    /**
+     * 结束标志
+     **/
+    private boolean end;
 
     public FiveChess(double width, double height, double cellLen) {
         this.width = width;
@@ -27,12 +37,14 @@ public class FiveChess {
                 chess[i][j] = ' ';
             }
         }
+        this.end = false;
     }
 
     public void play(int x, int y, char color) {
         //将当前的棋子放置到（x,y）
         if (chess[x][y] == ' ') {
             chess[x][y] = color;
+            //落子正确的话，与flag相等的一方不能落子
             flag = color;
         }
     }
@@ -133,24 +145,12 @@ public class FiveChess {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
     public double getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
     public double getCellLen() {
         return cellLen;
-    }
-
-    public void setCellLen(double cellLen) {
-        this.cellLen = cellLen;
     }
 
     public String getColor() {
@@ -159,35 +159,27 @@ public class FiveChess {
 
     public void setColor(String color) {
         this.color = color;
-        if (color.compareTo("White") == 0) {
-            currentSide = 'W';
-        } else {
-            currentSide = 'B';
-        }
+        localSide = color.compareTo("White") == 0 ? 'W' : 'B';
     }
 
-    public char getCurrentSide() {
-        return currentSide;
-    }
-
-    public void setCurrentSide(char currentSide) {
-        this.currentSide = currentSide;
+    public char getLocalSide() {
+        return localSide;
     }
 
     public char getFlag() {
         return flag;
     }
 
-    public void setFlag(char flag) {
-        this.flag = flag;
-    }
-
     public char[][] getChess() {
         return chess;
     }
 
-    public void setChess(char[][] chess) {
-        this.chess = chess;
+    public boolean isEnd() {
+        return end;
+    }
+
+    public void setEnd(boolean end) {
+        this.end = end;
     }
 
 }

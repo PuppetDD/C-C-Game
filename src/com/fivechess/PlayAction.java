@@ -24,7 +24,7 @@ public class PlayAction implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {
-        if (fiveChess.getCurrentSide() != fiveChess.getFlag()) {
+        if (fiveChess.getLocalSide() != fiveChess.getFlag() && !fiveChess.isEnd()) {
             //处理鼠标点击事件
             double cell = fiveChess.getCellLen();
 
@@ -36,17 +36,20 @@ public class PlayAction implements EventHandler<MouseEvent> {
             int j = (int) ((y - 50 + cell / 2) / cell);
 
             System.out.println(i + "    " + j);
-            fiveChess.play(i, j, fiveChess.getCurrentSide());
+            fiveChess.play(i, j, fiveChess.getLocalSide());
             chessPane.drawChess(cell);
             //客户端之间通信发送坐标
-            UdpClient.send(i + "," + j);
-            if (!fiveChess.judgeGame(i, j, fiveChess.getCurrentSide())) {
+            UdpClient.send(i + "," + j + "," + fiveChess.getLocalSide());
+            if (!fiveChess.judgeGame(i, j, fiveChess.getLocalSide())) {
+                fiveChess.setEnd(true);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("FiveChess");
                 alert.setHeaderText("Note");
-                alert.setContentText((fiveChess.getCurrentSide() == 'W' ? "White" : "Black") + " is the winner！");
+                alert.setContentText((fiveChess.getLocalSide() == 'W' ? "White" : "Black") + " is the winner！");
                 alert.showAndWait();
                 //点击确定后关闭五子棋窗口，并且设置UdpClient.number=0
+                Chess.close();
+                UdpClient.number = 0;
             }
         }
     }

@@ -62,28 +62,4 @@ public class ChessPane extends Pane {
         }
     }
 
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public GraphicsContext getGc() {
-        return gc;
-    }
-
-    public void setGc(GraphicsContext gc) {
-        this.gc = gc;
-    }
-
-    public FiveChess getFiveChess() {
-        return fiveChess;
-    }
-
-    public void setFiveChess(FiveChess fiveChess) {
-        this.fiveChess = fiveChess;
-    }
-
 }

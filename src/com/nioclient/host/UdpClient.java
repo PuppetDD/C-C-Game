@@ -109,11 +109,12 @@ public class UdpClient extends Thread {
                                     color = message.compareTo("White") == 0 ? "Black" : "White";
                                     battleRequest();
                                 }
-                            } else if (attribute.length == 2) {
+                            } else if (attribute.length == 3) {
                                 //接受对方的落子信息
                                 int x = Integer.valueOf(attribute[0]);
                                 int y = Integer.valueOf(attribute[1]);
-                                opponentPlay(x, y);
+                                String c = attribute[2];
+                                opponentPlay(x, y, c);
                             }
                         }
                         System.out.println(message);
@@ -138,7 +139,7 @@ public class UdpClient extends Thread {
             public void run() {
                 ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType no = new ButtonType("No", ButtonBar.ButtonData.NO);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to accept this request", no, yes);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to accept this battle", no, yes);
                 //设置窗口的标题
                 alert.setTitle("FiveChess");
                 alert.setHeaderText("Battle Request from " + sender);
@@ -160,20 +161,23 @@ public class UdpClient extends Thread {
         });
     }
 
-    public void opponentPlay(int x, int y) {
+    public void opponentPlay(int x, int y, String color)  {
         double cell = chess.getFiveChess().getCellLen();
-        char color = chess.getFiveChess().getCurrentSide() == 'W' ? 'B' : 'W';
-        chess.getFiveChess().play(x, y, color);
-        chess.getChesspane().drawChess(cell);
-        if (!chess.getFiveChess().judgeGame(x, y, color)) {
+        char opponentColor = color.compareTo("W") == 0 ? 'W' : 'B';
+        chess.getFiveChess().play(x, y, opponentColor);
+        chess.getChessPane().drawChess(cell);
+        if (!chess.getFiveChess().judgeGame(x, y, opponentColor)) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
+                    chess.getFiveChess().setEnd(true);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("FiveChess");
                     alert.setHeaderText("Note");
-                    alert.setContentText((color == 'W' ? "White" : "Black") + " is the winner！");
+                    alert.setContentText((color.compareTo("W") == 0 ? "White" : "Black") + " is the winner！");
                     alert.showAndWait();
+                    Chess.close();
+                    number = 0;
                 }
             });
         }
@@ -216,10 +220,6 @@ public class UdpClient extends Thread {
 
     public int getPort() {
         return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
 }

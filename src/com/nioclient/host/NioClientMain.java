@@ -41,20 +41,7 @@ public class NioClientMain extends Application {
             connect();
         });
         NioClient.getClientSe().getBattle().setOnAction(e -> {
-            //请求对战
-            User u = NioClient.getClientSe().getList().getSelectionModel().getSelectedItems().get(0);
-            String s = NioClient.getClientSe().getCbo().getValue();
-            if (UdpClient.number == 0 && u != null && s != "") {
-                //当前正在对战，只允许一个对手
-                UdpClient.number = 1;
-                UdpClient.opponent = u;
-                UdpClient.color = s;
-                System.out.println("Opponent:" + u + "  Color:" + s);
-                UdpClient.send(NioClient.getClientSe().getCbo().getValue());
-            } else {
-                System.out.println("Battling");
-                NioClient.getClientRe().getRetext().appendText("Please complete the current battle\n");
-            }
+            battle();
         });
         primaryStage.show();
     }
@@ -71,6 +58,26 @@ public class NioClientMain extends Application {
             }
         } else {
             c.setStop();
+        }
+    }
+
+    private void battle() {
+        //请求对战
+        User u = NioClient.getClientSe().getList().getSelectionModel().getSelectedItems().get(0);
+        String s = NioClient.getClientSe().getCbo().getValue();
+        if (UdpClient.number == 0 && u != null && s != "") {
+            //当前正在对战，只允许一个对手
+            UdpClient.number = 1;
+            UdpClient.opponent = u;
+            UdpClient.color = s;
+            System.out.println("Opponent:" + u + "  Color:" + s);
+            UdpClient.send(NioClient.getClientSe().getCbo().getValue());
+        } else if (UdpClient.number == 1) {
+            NioClient.getClientRe().getRetext().appendText("Please complete the current battle\n");
+        } else if (u == null) {
+            NioClient.getClientRe().getRetext().appendText("Please choosing your opponent\n");
+        } else if (s == "") {
+            NioClient.getClientRe().getRetext().appendText("Please choosing your color\n");
         }
     }
 
