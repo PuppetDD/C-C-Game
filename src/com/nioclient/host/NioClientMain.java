@@ -74,10 +74,8 @@ public class NioClientMain extends Application {
             UdpClient.send(NioClient.getClientSe().getCbo().getValue());
         } else if (UdpClient.number == 1) {
             NioClient.getClientRe().getRetext().appendText("Please complete the current battle\n");
-        } else if (u == null) {
-            NioClient.getClientRe().getRetext().appendText("Please choosing your opponent\n");
-        } else if (s == "") {
-            NioClient.getClientRe().getRetext().appendText("Please choosing your color\n");
+        } else {
+            NioClient.getClientRe().getRetext().appendText("Please choosing your opponent and color\n");
         }
     }
 

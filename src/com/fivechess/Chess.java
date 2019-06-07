@@ -23,8 +23,9 @@ public class Chess {
         chessPane = new ChessPane(fiveChess);
         //等待对方确认后再进行事件源绑定处理器
         chessPane.setOnMouseClicked(new PlayAction(fiveChess, chessPane));
-        Scene scene = new Scene(chessPane, 650, 700);
+        Scene scene = new Scene(chessPane, 660, 680);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.setTitle("FiveChess   YourColor:" + fiveChess.getColor());
         stage.show();
     }
