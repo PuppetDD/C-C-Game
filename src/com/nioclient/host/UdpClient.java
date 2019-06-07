@@ -104,6 +104,24 @@ public class UdpClient extends Thread {
                                         }
                                     });
                                 }
+                                if(message.compareTo("Refuse") == 0){
+                                    number=0;
+                                }
+                                if(message.compareTo("Lose") == 0){
+                                    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            chess.getFiveChess().setEnd(true);
+                                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                            alert.setTitle("FiveChess");
+                                            alert.setHeaderText("Note");
+                                            alert.setContentText((chess.getFiveChess().getLocalSide() == 'W' ? "Black" : "White") + " conceded defeat");
+                                            alert.showAndWait();
+                                            Chess.close();
+                                            number = 0;
+                                        }
+                                    });
+                                }
                                 if (message.compareTo("White") == 0 || message.compareTo("Black") == 0) {
                                     //弹出对战请求，确认后开始对战
                                     color = message.compareTo("White") == 0 ? "Black" : "White";
@@ -151,11 +169,14 @@ public class UdpClient extends Thread {
                 System.out.println("Choosing:" + choose);
                 if (choose.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
                     System.out.println("Accept");
+                    number=1;
                     chess = new Chess(color);
                     setOpponent(sender);
                     send("Accept");
                     NioClient.getClientSe().getCbo().setValue(color);
                 } else {
+                    setOpponent(sender);
+                    send("Refuse");
                 }
             }
         });

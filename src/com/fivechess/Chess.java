@@ -1,5 +1,6 @@
 package com.fivechess;
 
+import com.nioclient.host.UdpClient;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -23,10 +24,14 @@ public class Chess {
         chessPane = new ChessPane(fiveChess);
         //等待对方确认后再进行事件源绑定处理器
         chessPane.setOnMouseClicked(new PlayAction(fiveChess, chessPane));
-        Scene scene = new Scene(chessPane, 660, 680);
+        Scene scene = new Scene(chessPane, 650, 670);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("FiveChess   YourColor:" + fiveChess.getColor());
+        stage.setOnCloseRequest(e -> {
+            UdpClient.send("Lose");
+            UdpClient.number=0;
+        });
         stage.show();
     }
 

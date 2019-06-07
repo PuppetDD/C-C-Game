@@ -1,6 +1,6 @@
 package com.nioserver.host;
 
-import com.nioserver.pane.ServerRecevied;
+import com.nioserver.pane.ServerReceive;
 import com.nioserver.pane.ServerSend;
 import com.protocol.User;
 import javafx.application.Platform;
@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class NioServer extends Thread {
 
-    private static ServerRecevied serverRe = new ServerRecevied();
+    private static ServerReceive serverRe = new ServerReceive();
     private static ServerSend serverSe = new ServerSend();
     private Selector selector;
     private ServerSocketChannel serverSocketChannel;
@@ -272,7 +272,7 @@ public class NioServer extends Thread {
         }
     }
 
-    public static ServerRecevied getServerRe() {
+    public static ServerReceive getServerRe() {
         return serverRe;
     }
 
