@@ -104,10 +104,10 @@ public class UdpClient extends Thread {
                                         }
                                     });
                                 }
-                                if(message.compareTo("Refuse") == 0){
-                                    number=0;
+                                if (message.compareTo("Refuse") == 0) {
+                                    number = 0;
                                 }
-                                if(message.compareTo("Lose") == 0){
+                                if (message.compareTo("Lose") == 0) {
                                     Platform.runLater(new Runnable() {
                                         @Override
                                         public void run() {
@@ -169,7 +169,7 @@ public class UdpClient extends Thread {
                 System.out.println("Choosing:" + choose);
                 if (choose.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
                     System.out.println("Accept");
-                    number=1;
+                    number = 1;
                     chess = new Chess(color);
                     setOpponent(sender);
                     send("Accept");
@@ -182,7 +182,7 @@ public class UdpClient extends Thread {
         });
     }
 
-    public void opponentPlay(int x, int y, String color)  {
+    public void opponentPlay(int x, int y, String color) {
         double cell = chess.getFiveChess().getCellLen();
         char opponentColor = color.compareTo("W") == 0 ? 'W' : 'B';
         chess.getFiveChess().play(x, y, opponentColor);

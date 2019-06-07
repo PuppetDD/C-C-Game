@@ -30,7 +30,7 @@ public class Chess {
         stage.setTitle("FiveChess   YourColor:" + fiveChess.getColor());
         stage.setOnCloseRequest(e -> {
             UdpClient.send("Lose");
-            UdpClient.number=0;
+            UdpClient.number = 0;
         });
         stage.show();
     }
